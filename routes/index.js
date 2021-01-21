@@ -1,8 +1,12 @@
 const express = require('express');
+/* const app = express(); */
 const router = express.Router();
 // Se puede usar solo una linea: const router = require('express').Router();
-var bodyParser = require('body-parser')
 const tweetBank = require('../tweetBank');
+/* const socketio = require('socket.io');
+// ...
+var server = express.listen(3000); 
+var io = socketio.listen(server); */
 
 router.get('/', function (req, res) {
     let tweets = tweetBank.list();
@@ -12,7 +16,7 @@ router.get('/', function (req, res) {
 router.get('/users/:name', function (req, res) {
     var name = req.params.name;
     var list = tweetBank.find({ name: name });
-    res.render('index', { tweets: list });
+    res.render('index', { tweets: list, showForm: true });
 });
 
 router.get('/tweets/:id', function (req, res) {
@@ -26,6 +30,16 @@ router.post('/tweets', function(req, res) {
     var text = req.body.text;
     tweetBank.add(name, text);
     res.redirect('/');
-  });
+});
 
-module.exports = router;
+router.post('/users/:name', function(req, res) {
+    var name = req.body.name;
+    var text = req.body.text;
+    tweetBank.add(name, text);
+    res.redirect('/users/' + name);
+}); 
+
+
+
+
+module.exports = router; 

@@ -2,9 +2,11 @@ const express = require('express');
 const morgan = require('morgan'); 
 const nunjucks = require('nunjucks');
 const app = express();
+const bodyParser = require('body-parser')
 // const router = express.Router();
-
 const routes = require('./routes');
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', routes);
 
@@ -15,12 +17,6 @@ nunjucks.configure('views'); // apunta a nunjucks al directorio correcto para lo
 app.use(morgan('tiny'))
 
 app.use(express.static('./public'))
-
-let tweetsDeEjemplo = [
-    { id: 1, name: "juan", content: "este es un tweeettt de juan" },
-    { id: 2, name: "carlos", content: "este es un tweeettt de carlos" },
-    { id: 3, name: "pepe", content: "este es un tweeettt de pepe" },
-];
 
 // app.get('/', function (req, res) {
 //     res.render( 'index', { tweets: tweetsDeEjemplo });
@@ -35,3 +31,9 @@ app.listen(3000, function(){
 });
 
 module.exports = {}
+
+/* let tweetsDeEjemplo = [
+    { id: 1, name: "juan", content: "este es un tweeettt de juan" },
+    { id: 2, name: "carlos", content: "este es un tweeettt de carlos" },
+    { id: 3, name: "pepe", content: "este es un tweeettt de pepe" },
+]; */
